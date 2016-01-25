@@ -13,5 +13,10 @@ end
 
   end
 
+  it "it has a maximum limit of £90" do 
+  	oystercard.top_up(90)
+  	message = "Maximum limit of #{Oystercard::MAX_LIMIT} reached"
+  	expect{oystercard.top_up 1}.to raise_error message
+  end
 
 end
