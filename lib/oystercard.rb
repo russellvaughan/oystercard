@@ -10,7 +10,6 @@ MAX_LIMIT = 90
   def top_up(amount)	
   fail "Maximum limit of #{Oystercard::MAX_LIMIT} reached" if balance_exceeded(amount)
   @balance += amount
-
   end
 
 private
