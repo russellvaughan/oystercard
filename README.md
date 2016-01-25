@@ -1,3 +1,3 @@
 # oystercard
 
-Authors: Russell Vaughan, David Parry, Barry Grubb
+Authors: Russell Vaughan, David Parry, Barry Grubb.
