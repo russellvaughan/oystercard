@@ -2,7 +2,7 @@ require 'oystercard'
 
 describe Oystercard do
   subject(:oystercard) {described_class.new}
- 
+
   	it "instaniates an oystercard class" do
   		expect(subject).to be_a Oystercard
   	end
@@ -13,7 +13,7 @@ describe Oystercard do
 
     it 'it should respond to top_up ' do
       expect(subject).to respond_to(:top_up).with(1).argument
-    end    
+    end
 
 describe '#top_up' do
 
@@ -27,6 +27,13 @@ describe '#top_up' do
     oystercard.top_up(Oystercard::MAX_LIMIT)
     message = "Maximum limit of #{Oystercard::MAX_LIMIT} reached"
     expect{oystercard.top_up 1}.to raise_error message
-    end 
     end
+    end
+
+describe '#deduct' do
+  it 'Deducts balance by amount deducted' do
+    oystercard.top_up(50)
+    expect{oystercard.deduct 30}.to change{ oystercard.balance }.by -30
+  end
+end
 end
