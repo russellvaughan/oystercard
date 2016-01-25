@@ -7,7 +7,7 @@ class Card
 	end
 
 	def top_up(value)
-		
+		@balance += value 
 	end
 end
 
