@@ -24,4 +24,13 @@ end
     expect{oystercard.deduct 30}.to change{ oystercard.balance }.by -30
   end
 
+  it 'Allows users to touch in and out' do
+    oystercard.touch_in
+    oystercard.in_journey?
+    oystercard.touch_out
+    expect(oystercard.in_journey?).to be false
+  end
+
+
+
 end
