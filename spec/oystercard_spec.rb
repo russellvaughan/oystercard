@@ -3,6 +3,7 @@ require 'oystercard'
 describe OysterCard do
 
 	subject(:card) { described_class.new }
+	let(:station)  { double(:station) }
 
   it 'displays a balance of zero when card is new' do
     expect(card.balance).to eq 0
@@ -49,8 +50,12 @@ describe OysterCard do
 
       context '#touch_in' do
         it 'has touched in at station' do
-          card.touch_in
+          card.touch_in(station)
           expect(card.in_journey?).to eq true
+        end
+        it 'remembers entry station' do
+        	card.touch_in(station)
+        	expect(card.entry_station).to eq station
         end
       end
 
@@ -61,20 +66,25 @@ describe OysterCard do
         end
 
         it 'charges for the journey' do
-          card.touch_in
+          card.touch_in(station)
           expect {card.touch_out}.to change{card.balance}.by(-OysterCard::MINIMUM_AMOUNT)
         end
-      end
-    end
 
-    context "no money on card" do
-      it 'does not allow to touch in at station' do
-        expect {card.touch_in}.to raise_error "Insufficient Funds Available"
+        it 'forgets entry_station after checking out' do
+          card.touch_out
+          expect(card.entry_station).to eq nil
+        end   
+        end
       end
-    end
 
+      context "no money on card" do
+        it 'does not allow to touch in at station' do
+          expect {card.touch_in(station)}.to raise_error "Insufficient Funds Available"
+        end
+      end
+
+    end
   end
-end
 
 
 
