@@ -2,6 +2,7 @@ class Card
 
 MAXIMUM_LIMIT = 90
 MINIMUM_BALANCE = 1
+DEDUCTION_VALUE = 1
 
 	attr_reader :balance, :limit
 
@@ -19,9 +20,7 @@ MINIMUM_BALANCE = 1
 		@balance += amount
 	end
 
-  def deduct(amount)
-    @balance -= amount
-  end
+
 
   def touch_in
     message = "cannot touch in as minimum balance has not been met"
@@ -31,11 +30,19 @@ MINIMUM_BALANCE = 1
 
   def touch_out
     @touch = false
+    deduct(1)
   end
 
   def in_journey?
     @touch
   end
+
+private
+
+  def deduct(amount)
+    @balance -= amount
+  end
+
 
 end
 

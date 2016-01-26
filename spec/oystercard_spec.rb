@@ -45,7 +45,7 @@ subject(:airport) { described_class.new }
 		expect{subject.top_up(1)}.to raise_error(message)
 		end
 	end
-
+=begin
   context 'deducts' do
 
     it { is_expected.to respond_to(:deduct).with(1).argument }
@@ -55,7 +55,7 @@ subject(:airport) { described_class.new }
     end
 
   end
-
+=end
   context 'card in use' do
 
     it { is_expected.to respond_to(:touch_in)}
@@ -71,7 +71,7 @@ subject(:airport) { described_class.new }
   context 'topped up' do
 
     it 'needs to be topped up' do
-    subject.top_up(described_class::MAXIMUM_LIMIT)
+    subject.top_up(1)
     end
 
     it 'can touch_in' do
@@ -89,16 +89,19 @@ subject(:airport) { described_class.new }
 
   end
 
-  context 'minimum balance' do
+  context 'balance dependencies' do
+
     it 'cannot touch_in unless minimum balance met' do
       message = "cannot touch in as minimum balance has not been met"
       expect{subject.touch_in}.to raise_error(message)
     end
+
+    it 'deducts balance on check out' do
+    subject.top_up(1)
+    subject.touch_in
+    expect{subject.touch_out}.to change{ subject.balance }.by(-1)
+    end
+
   end
+
 end
-
-
-
-
-
-
