@@ -13,7 +13,7 @@ MAXIMUM_LIMIT = 90
 
 	def top_up(amount)
 		new_balance = @balance + amount
-		message = "You cannot exceed the £#{@limit} limit!"
+		message = "You cannot exceed the maximum limit!"
 		raise (message) if new_balance > @limit
 		@balance += amount
 	end

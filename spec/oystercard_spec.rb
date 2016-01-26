@@ -2,10 +2,12 @@ require 'oystercard'
 
 RSpec.describe Card do
 
-limit = Card::MAXIMUM_LIMIT
+
+subject(:airport) { described_class.new }
+
 
 	it 'creates a new card' do
-		expect(Card.new).to be_a(Card)
+		expect(described_class.new).to be_a(Card)
 	end
 
 	context 'balance' do
@@ -29,17 +31,17 @@ limit = Card::MAXIMUM_LIMIT
 
 		it {is_expected.to respond_to(:limit)}
 
-		it "has a limit of #{limit}" do
-		expect(subject.limit).to eq(limit)
+		it "has a limit of described_class::MAXIMUM_LIMIT" do
+		expect(subject.limit).to eq(described_class::MAXIMUM_LIMIT)
 		end
 
 		it 'has a default limit' do
-		expect(subject.limit).to eq limit # Card::MAXIMUM_LIMIT
+		expect(subject.limit).to eq described_class::MAXIMUM_LIMIT
 		end
 
-		it "cannot exceed #{limit}" do
-		message = "You cannot exceed the £#{limit} limit!"
-		subject.top_up(limit)  # the value needs to be less than the limit less what is topped up in test (so if default value = 90, and you top up 1 or more, you need value of 89 or less)
+		it "cannot exceed a maximum limit" do
+		message = "You cannot exceed the maximum limit!"
+		subject.top_up(described_class::MAXIMUM_LIMIT)
 		expect{subject.top_up(1)}.to raise_error(message)
 		end
 	end
@@ -69,7 +71,7 @@ limit = Card::MAXIMUM_LIMIT
   context 'topped up' do
 
     it 'needs to be topped up' do
-    subject.top_up(limit)
+    subject.top_up(described_class::MAXIMUM_LIMIT)
     end
 
     it 'can touch in' do
