@@ -1,4 +1,4 @@
-class Card 
+class Card
 
 MAXIMUM_LIMIT = 90
 
@@ -15,6 +15,10 @@ MAXIMUM_LIMIT = 90
 		raise (message) if new_balance > @limit
 		@balance += amount
 	end
+
+  def deduct(amount)
+    @balance -= amount
+  end
 
 end
 

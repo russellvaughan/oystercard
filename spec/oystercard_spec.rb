@@ -1,6 +1,6 @@
 require 'oystercard'
 
-RSpec.describe Card do 
+RSpec.describe Card do
 
 limit = Card::MAXIMUM_LIMIT
 
@@ -12,7 +12,7 @@ limit = Card::MAXIMUM_LIMIT
 
 		it 'has a balance of zero' do
 		expect(subject.balance).to eq(0)
-		end 
+		end
 	end
 
 	context 'top ups' do
@@ -27,7 +27,7 @@ limit = Card::MAXIMUM_LIMIT
 
 	context 'limit' do
 
-		it {is_expected.to respond_to(:limit)} 
+		it {is_expected.to respond_to(:limit)}
 
 		it "has a limit of #{limit}" do
 		expect(subject.limit).to eq(limit)
@@ -43,6 +43,17 @@ limit = Card::MAXIMUM_LIMIT
 		expect{subject.top_up(1)}.to raise_error(message)
 		end
 	end
+
+  context 'deducts' do
+
+    it { is_expected.to respond_to(:deduct).with(1).argument }
+
+    it 'deducts from balance' do
+      expect{subject.deduct(1)}.to change{ subject.balance }.by(-1)
+    end
+
+  end
+
 end
 
 
