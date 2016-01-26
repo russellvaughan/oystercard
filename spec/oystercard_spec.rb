@@ -32,6 +32,16 @@ require 'oystercard'
     end
 
 	end
+
+	describe '#deduct' do
+		it 'deducts money from balance' do
+		card.top_up(5)
+		card.deduct(2)
+		expect(card.balance).to eq (3)
+		end
+
+	end
+
 	
   end
 
