@@ -49,8 +49,13 @@ require 'oystercard'
 
   describe '#touch_in' do
     it 'has touched in at station' do
+      card.top_up(3)
       card.touch_in
       expect(card.in_journey?).to eq true
+    end
+
+    it 'does not allow to touch in at station' do
+      expect {card.touch_in}.to raise_error "Insufficient Funds Available"
     end
   end
 

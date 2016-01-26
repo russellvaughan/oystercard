@@ -26,6 +26,7 @@ class OysterCard
   end
 
   def touch_in
+    fail "Insufficient Funds Available" if low_funds?
     @in_journey = true
   end
 
@@ -37,6 +38,10 @@ class OysterCard
 
   def max?(amount)
     @balance + amount > MAXIMUM_AMOUNT
+  end
+
+  def low_funds?
+    @balance < 1
   end
 
 
