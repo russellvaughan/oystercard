@@ -1,13 +1,20 @@
 class Card 
 
-	attr_reader :balance
+DEFAULT_LIMIT = 90
 
-	def initialize
+	attr_reader :balance, :limit
+
+	def initialize(limit=DEFAULT_LIMIT)
 		@balance = 0
+		@limit = limit
 	end
 
-	def top_up(value)
-		@balance += value 
+	def top_up(amount)
+		new_balance = @balance + amount
+		message = "You cannot exceed the #{@limit} limit!"
+		raise (message) if new_balance > @limit
+		@balance += amount
 	end
+
 end
 
