@@ -5,6 +5,7 @@ class OysterCard
  attr_reader :balance
 
  MAXIMUM_AMOUNT = 90
+ MINIMUM_AMOUNT = 1
 
 	def initialize
 		@balance = 0
@@ -15,10 +16,6 @@ class OysterCard
     fail "Does not accept negative amounts" if amount < 0
     fail "You have reached £#{MAXIMUM_AMOUNT}" if max?(amount)
 		@balance += amount
-	end
-
-	def deduct(amount)
-		@balance -= amount
 	end
 
   def in_journey?
@@ -32,6 +29,7 @@ class OysterCard
 
   def touch_out
     @in_journey = false
+    deduct(MINIMUM_AMOUNT)
   end
 
   private
@@ -41,7 +39,11 @@ class OysterCard
   end
 
   def low_funds?
-    @balance < 1
+    @balance < MINIMUM_AMOUNT
+  end
+
+  def deduct(amount)
+    @balance -= amount
   end
 
 

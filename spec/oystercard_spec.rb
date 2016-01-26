@@ -1,27 +1,26 @@
 require 'oystercard'
 
-  describe OysterCard do
+describe OysterCard do
 
 	subject(:card) { described_class.new }
 
-		it 'displays a balance of zero when card is new' do
-		expect(card.balance).to eq 0
+  it 'displays a balance of zero when card is new' do
+    expect(card.balance).to eq 0
 
-		end
-
+  end
 
 	describe '#top_up' do #when you describe a method it's lowercase and it's string.
 
     it { is_expected.to respond_to(:top_up).with(1).argument }
 
-		it 'allows user to top up' do
-		card.top_up(5)
-		expect(card.balance).to eq 5
+    it 'allows user to top up' do
+      card.top_up(5)
+      expect(card.balance).to eq 5
 
-		end
+    end
 
     it 'does not allow negative amounts' do
-    expect { card.top_up(-2) }.to raise_error "Does not accept negative amounts"
+      expect { card.top_up(-2) }.to raise_error "Does not accept negative amounts"
 
     end
 
@@ -31,43 +30,54 @@ require 'oystercard'
       expect { card.top_up(1) }.to raise_error "You have reached £90"
     end
 
-	end
-
-	describe '#deduct' do
-		it 'deducts money from balance' do
-		card.top_up(5)
-		card.deduct(2)
-		expect(card.balance).to eq (3)
-		end
-	end
-
-  describe '#in_journey?' do
-    it 'new card isn\'t in journey' do
-      expect(card.in_journey?).to eq false
-    end
   end
 
-  describe '#touch_in' do
-    it 'has touched in at station' do
-      card.top_up(3)
-      card.touch_in
-      expect(card.in_journey?).to eq true
+  describe 'touching in and out' do
+
+    context 'have money on card' do
+
+      before do
+        card.top_up(1)
+      end
+
+      context '#in_journey?' do
+        it 'new card isn\'t in journey' do
+          expect(card.in_journey?).to eq false
+        end
+      end
+
+
+      context '#touch_in' do
+        it 'has touched in at station' do
+          card.touch_in
+          expect(card.in_journey?).to eq true
+        end
+      end
+
+      context '#touch_out' do
+        it 'has touched out at station' do
+          card.touch_out
+          expect(card.in_journey?).to eq false
+        end
+
+        it 'charges for the journey' do
+          card.touch_in
+          expect {card.touch_out}.to change{card.balance}.by(-OysterCard::MINIMUM_AMOUNT)
+        end
+      end
     end
 
-    it 'does not allow to touch in at station' do
-      expect {card.touch_in}.to raise_error "Insufficient Funds Available"
+    context "no money on card" do
+      it 'does not allow to touch in at station' do
+        expect {card.touch_in}.to raise_error "Insufficient Funds Available"
+      end
     end
-  end
-
-  describe '#touch_out' do
-    it 'has touched out at station' do
-      card.touch_out
-      expect(card.in_journey?).to eq false
-    end
-  end
-
 
   end
+end
+
+
+
 
 
 
