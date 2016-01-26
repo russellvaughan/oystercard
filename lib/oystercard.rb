@@ -1,6 +1,7 @@
 class Card
 
 MAXIMUM_LIMIT = 90
+MINIMUM_BALANCE = 1
 
 	attr_reader :balance, :limit
 
@@ -23,6 +24,8 @@ MAXIMUM_LIMIT = 90
   end
 
   def touch_in
+    message = "cannot touch in as minimum balance has not been met"
+    raise(message) if @balance < MINIMUM_BALANCE
     @touch = true
   end
 

@@ -74,12 +74,14 @@ subject(:airport) { described_class.new }
     subject.top_up(described_class::MAXIMUM_LIMIT)
     end
 
-    it 'can touch in' do
+    it 'can touch_in' do
+    subject.top_up(1)
     subject.touch_in
     expect(subject).to be_in_journey
     end
 
-    it 'can touch out' do
+    it 'can touch_out' do
+    subject.top_up(1)
     subject.touch_in
     subject.touch_out
     expect(subject).not_to be_in_journey
@@ -87,7 +89,12 @@ subject(:airport) { described_class.new }
 
   end
 
-
+  context 'minimum balance' do
+    it 'cannot touch_in unless minimum balance met' do
+      message = "cannot touch in as minimum balance has not been met"
+      expect{subject.touch_in}.to raise_error(message)
+    end
+  end
 end
 
 
