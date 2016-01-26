@@ -5,9 +5,9 @@ describe OysterCard do
   	expect(subject.balance).to eq(0)
   end
 
-describe '#add_balance' do
-  it 'adds amount to balance' do
-  expect{subject.add_balance(1)}.to change{subject.balance}.by 1
+describe '#top_up' do
+  it 'adds top_up amount to balance' do
+  expect{subject.top_up(1)}.to change{subject.balance}.by 1
  end 
 end
 end
