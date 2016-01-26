@@ -23,4 +23,41 @@ end
   expect{subject.deduct(1)}.to change{subject.balance}.by -1
   end
  end
+ describe '#touch_in' do
+  it 'it touches in' do
+  subject.touch_in
+  expect(subject.status).to eq(true)
+end
+end
+ describe '#touch_out' do
+ it 'touches out' do
+  subject.touch_in
+  subject.touch_out
+  expect(subject.status).to eq(false)
+end
+end
+
+ describe '#in_journey?' do
+  it 'returns true when in journey' do
+    subject.touch_in
+    expect(subject).to be_in_journey
+  end
+  it 'returns false initially' do
+    expect(subject).not_to be_in_journey
+  end
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 end
