@@ -25,12 +25,19 @@ end
  end
  describe '#touch_in' do
   it 'it touches in' do
+  subject.top_up(OysterCard::MINIMUM_BALANCE)
   subject.touch_in
   expect(subject.status).to eq(true)
 end
+
+  it 'requires minimum balance' do 
+
+  	expect{subject.touch_in}.to raise_error 'Balance too low.'
+  end
 end
  describe '#touch_out' do
  it 'touches out' do
+  subject.top_up(OysterCard::MINIMUM_BALANCE)
   subject.touch_in
   subject.touch_out
   expect(subject.status).to eq(false)
@@ -39,6 +46,7 @@ end
 
  describe '#in_journey?' do
   it 'returns true when in journey' do
+  	subject.top_up(OysterCard::MINIMUM_BALANCE)
     subject.touch_in
     expect(subject).to be_in_journey
   end
