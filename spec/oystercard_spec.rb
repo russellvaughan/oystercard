@@ -4,6 +4,7 @@ RSpec.describe Card do
 
 
 subject(:airport) { described_class.new }
+station =
 
 
 	it 'creates a new card' do
@@ -58,7 +59,7 @@ subject(:airport) { described_class.new }
 =end
   context 'card in use' do
 
-    it { is_expected.to respond_to(:touch_in)}
+    it { is_expected.to respond_to(:touch_in).with(1).argument}
     it { is_expected.to respond_to(:touch_out)}
     it { is_expected.to respond_to(:in_journey?)}
 
