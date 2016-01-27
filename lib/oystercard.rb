@@ -1,3 +1,5 @@
+require './lib/station.rb'
+
 class OysterCard
 
  MAXIMUM_BALANCE = 90
@@ -5,10 +7,10 @@ class OysterCard
 
  MINIMUM_CHARGE = 1
 
- attr_reader :balance
+ attr_reader :balance, :entry_station
  attr_accessor :in_journey
 
- def initialize()
+ def initialize
    @balance = 0 
    @in_journey = false
  end
@@ -18,7 +20,8 @@ class OysterCard
  	@balance += amount
  end
 
- def touch_in
+ def touch_in(station)
+ 	@entry_station = station
  	raise 'Balance too low.' if balance < MINIMUM_BALANCE
  	@in_journey = true
  end
@@ -26,6 +29,11 @@ class OysterCard
  def touch_out
  	deduct(MINIMUM_CHARGE)
     @in_journey = false
+    @entry_station = nil
+ end
+
+ def in_journey?
+   !!entry_station
  end
 
  private 
