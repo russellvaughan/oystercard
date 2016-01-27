@@ -17,17 +17,17 @@ it 'raises an error when balance more than 90' do
 	expect{ subject.top_up(1) }.to raise_error "error balance greater than #{maximum_balance}"
 end
 
- describe '#deduct' do
-  it 'deducts amount from balance' do
-    subject.top_up(20)
-  expect{subject.deduct(1)}.to change{subject.balance}.by -1
-  end
- end
+ # describe '#deduct' do
+ #  it 'deducts amount from balance' do
+ #    subject.top_up(20)
+ #  expect{subject.deduct(1)}.to change{subject.balance}.by -1
+ #  end
+ # end
  describe '#touch_in' do
   it 'it touches in' do
   subject.top_up(OysterCard::MINIMUM_BALANCE)
   subject.touch_in
-  expect(subject.status).to eq(true)
+  expect(subject.in_journey).to eq(true)
 end
 
   it 'requires minimum balance' do 
@@ -40,18 +40,24 @@ end
   subject.top_up(OysterCard::MINIMUM_BALANCE)
   subject.touch_in
   subject.touch_out
-  expect(subject.status).to eq(false)
+  expect(subject.in_journey).to eq(false)
 end
+
+ it 'charges for journey' do
+ 	subject.top_up(1)
+ 	subject.touch_in
+ 	expect {subject.touch_out}.to change{subject.balance}.by(-OysterCard::MINIMUM_CHARGE)
+ end
 end
 
  describe '#in_journey?' do
   it 'returns true when in journey' do
   	subject.top_up(OysterCard::MINIMUM_BALANCE)
     subject.touch_in
-    expect(subject).to be_in_journey
+    expect(subject.in_journey).to eq true
   end
   it 'returns false initially' do
-    expect(subject).not_to be_in_journey
+    expect(subject.in_journey).to eq false
   end
 end
 
