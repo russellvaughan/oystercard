@@ -8,8 +8,17 @@
 
     it 'displays a balance of zero when card is new' do
       expect(card.balance).to eq 0
-
     end
+
+    describe 'journey_history' do
+      it 'displays an empty journey history when new' do
+      expect(card.journey_history).to eq ({}) 
+      #other way woud be 
+      #expect(card.journey_history.empty?).to eq true 
+      end
+    end
+
+
 
   	describe '#top_up' do #when you describe a method it's lowercase and it's string.
 
@@ -60,9 +69,10 @@
          card.touch_in(entry_station)
          expect(card.entry_station).to eq entry_station
        end
-     end
 
-     context '#touch_out' do
+   end
+
+    context '#touch_out' do
       it 'has touched out at station' do
         card.touch_out(exit_station)
         expect(card.in_journey?).to eq false
@@ -80,6 +90,16 @@
     end
    end 
 
+       context "#journey_history" do
+      it 'records the journey history of a user' do
+      card.top_up(3)
+      card.touch_in(entry_station)
+      card.touch_out(exit_station)
+      expect(card.journey_history).to include  ({"entry_station" => entry_station, "exit_station" => exit_station})
+      end
+   end 
+
+
     context "no money on card" do
       it 'does not allow to touch in at entry_station' do
         expect {card.touch_in(entry_station)}.to raise_error "Insufficient Funds Available"
@@ -87,10 +107,9 @@
     end
 
   end
+end
 
 
-
-  end
 
 
 
