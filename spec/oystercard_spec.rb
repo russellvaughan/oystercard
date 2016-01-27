@@ -3,7 +3,7 @@ require 'oystercard'
 RSpec.describe Card do
 
 
-subject(:airport) { described_class.new }
+subject(:oystercard) { described_class.new }
 station =
 
 
