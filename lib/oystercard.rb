@@ -11,13 +11,13 @@ class OysterCard
  attr_accessor :in_journey
 
  def initialize
-   @balance = 0 
+   @balance = 0
    @in_journey = false
    @previous_journeys = {}
  end
 
  def top_up(amount)
- 	raise "error balance greater than #{MAXIMUM_BALANCE}" if balance + amount > MAXIMUM_BALANCE
+ 	raise "error balance greater than maximum balance" if balance + amount > MAXIMUM_BALANCE
  	@balance += amount
  end
 
@@ -39,7 +39,7 @@ class OysterCard
    !!entry_station
  end
 
- private 
+ private
 
  def deduct(amount)
  	@balance -= amount
