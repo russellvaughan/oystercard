@@ -1,6 +1,9 @@
+require_relative 'location.rb'
+
 class Oystercard
 
-attr_reader :balance, :entry_location
+attr_reader :balance, :entry_location, :journey
+attr_accessor :history
 
 MAX_LIMIT = 90
 SINGLE_JOURNEY = 1
@@ -8,6 +11,10 @@ SINGLE_JOURNEY = 1
 
   def initialize
   @balance = 0
+  @journey = []
+  @history = Hash.new
+ # @journey = Journey1:{["entry_location" => entry_location, "exit_location => exit_location"]}
+ # @journey = journey:{ "jounrey" => [@entry_location, @exit_location]
   end
 
   def top_up(amount)
@@ -18,19 +25,22 @@ SINGLE_JOURNEY = 1
   def touch_in(location)
   fail "insufficient funds" if balance < SINGLE_JOURNEY
   @entry_location = location
+  @journey<<@entry_location
 
   end
 
-
-  def touch_out
+  def touch_out(location)
+  @exit_location = location
   deduct(SINGLE_JOURNEY)
+  @journey<<@exit_location
+  @history = { "journey" => [@entry_location, @exit_location] }
   clear_entry_location
   end
 
   def in_journey?
     !!entry_location
-
   end
+
 
   private
 
@@ -48,3 +58,5 @@ SINGLE_JOURNEY = 1
 
 
 end
+
+

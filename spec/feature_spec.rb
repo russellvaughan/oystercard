@@ -21,41 +21,44 @@ describe Oystercard do
 
 
   it 'Allows users to touch in and out' do
-    location = Location.new
     oystercard.top_up(90)
-    oystercard.touch_in(location)
+    oystercard.touch_in(Location.new)
     oystercard.in_journey?
-    oystercard.touch_out
+    oystercard.touch_out(Location.new)
     expect(oystercard.in_journey?).to be false
   end
 
   it "Tests that you need a minimum amount for a single jouney" do
-    location = Location.new
     message = "insufficient funds"
-    expect{oystercard.touch_in(location)}.to raise_error message
+    expect{oystercard.touch_in(Location.new)}.to raise_error message
   end
 
   it "It deducts money when you touch out" do
-    location = Location.new
     oystercard.top_up(20)
-    oystercard.touch_in(location)
-    expect{oystercard.touch_out}.to change {oystercard.balance}.by(-Oystercard::SINGLE_JOURNEY)
+    oystercard.touch_in(Location.new)
+    expect{oystercard.touch_out(Location.new)}.to change {oystercard.balance}.by(-Oystercard::SINGLE_JOURNEY)
   end
 
   it 'Knows where the user has travelled from' do
-    location = Location.new
     oystercard.top_up(20)
+    location = Location.new
     oystercard.touch_in(location)
     expect(oystercard.entry_location).to eq (location)
   end
 
-  it 'Resets entry location to nil when touched out' do
-    location = Location.new
+  it 'Resets entry Location.new to nil when touched out' do
     oystercard.top_up(20)
-    oystercard.touch_in(location)
-    oystercard.touch_out
+    oystercard.touch_in(Location.new)
+    oystercard.touch_out(Location.new)
     expect(oystercard.entry_location).to eq nil
   end
 
-
+  it "sees all of the users previous trips" do 
+    oystercard.top_up(20)
+    location1=Location.new
+    location3 =Location.new
+    oystercard.touch_in(location1)
+    oystercard.touch_out(location3)
+    expect(oystercard.history).to eq ({"journey"=>[location1, location3]})
+  end
 end

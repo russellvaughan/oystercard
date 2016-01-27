@@ -29,7 +29,7 @@ describe Oystercard do
     describe '#touch_in' do
 
       it 'Allows a user to touch in' do
-        expect(oystercard).to respond_to(:touch_in)
+        expect(oystercard).to respond_to(:touch_in) 
         end
       end
 
@@ -55,19 +55,29 @@ describe Oystercard do
 
     it 'Allows a user to touch_out' do
       oystercard.touch_in(location)
-      oystercard.touch_out
+      oystercard.touch_out(location)
       expect(oystercard.in_journey?).to be false
     end
 
     it 'Resets entry location to nil when touched out' do
       oystercard.touch_in(location)
-      oystercard.touch_out
+      oystercard.touch_out(location)
       expect(oystercard.entry_location).to eq nil
+    end
+  
+  describe '#history' do
+    it 'Records the entry and exit locations in a hash' do 
+      location1=Location.new
+      location3 =Location.new
+      oystercard.touch_in(location1)
+      oystercard.touch_out(location3)
+      expect(oystercard.history).to eq ({"journey"=>[location1, location3]})
+      end
     end
   end
 
     it 'Deducts single journey from balance' do
-      expect{oystercard.touch_out}.to change{oystercard.balance}.by(-Oystercard::SINGLE_JOURNEY)
+      expect{oystercard.touch_out(location)}.to change{oystercard.balance}.by(-Oystercard::SINGLE_JOURNEY)
     end
   end
 
@@ -78,5 +88,12 @@ describe Oystercard do
       expect(oystercard.entry_location).to eq (location)
     end
   end
-end
+  describe '#exit_location' do
+    it 'Records entry location' do
+      oystercard.top_up(20)
+      oystercard.touch_out(location)
+      expect(oystercard.journey).to eq [location]
+    end
+  end
 
+end
