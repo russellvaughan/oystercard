@@ -7,6 +7,7 @@ describe OysterCard do
 subject(:oystercard) { described_class.new }
 
 let(:station) {double :station}
+let(:station2) {double :station2}
 
   it 'has a balance of zero' do
   	expect(subject.balance).to eq(0)
@@ -24,12 +25,6 @@ it 'raises an error when balance more than 90' do
 	expect{ subject.top_up(1) }.to raise_error "error balance greater than #{maximum_balance}"
 end
 
- # describe '#deduct' do
- #  it 'deducts amount from balance' do
- #    subject.top_up(20)
- #  expect{subject.deduct(1)}.to change{subject.balance}.by -1
- #  end
- # end
  describe '#touch_in' do
   it 'it touches in' do
   subject.top_up(OysterCard::MINIMUM_BALANCE)
@@ -46,14 +41,14 @@ end
  it 'touches out' do
   subject.top_up(OysterCard::MINIMUM_BALANCE)
   subject.touch_in(station)
-  subject.touch_out
+  subject.touch_out(station2)
   expect(subject.in_journey).to eq(false)
 end
 
  it 'charges for journey' do
  	subject.top_up(1)
  	subject.touch_in(station)
- 	expect {subject.touch_out}.to change{subject.balance}.by(-OysterCard::MINIMUM_CHARGE)
+ 	expect {subject.touch_out(station2)}.to change{subject.balance}.by(-OysterCard::MINIMUM_CHARGE)
  end
 end
 
@@ -73,6 +68,20 @@ it 'stores the entry station' do
 	subject.touch_in(station)
 	expect(subject.entry_station).to eq station
 end
+
+describe '#previous_journeys' do
+  it 'has default is empty' do
+    expect(subject.previous_journeys).to eq ({})
+  end
+
+  it 'lists previous journeys' do
+  subject.top_up(1)
+  subject.touch_in(station)
+  subject.touch_out(station2)
+  expect(subject.previous_journeys).to eq ({station => station2})
+end
+end
+
 
 
 

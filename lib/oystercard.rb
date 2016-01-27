@@ -1,4 +1,4 @@
-require './lib/station.rb'
+
 
 class OysterCard
 
@@ -7,12 +7,13 @@ class OysterCard
 
  MINIMUM_CHARGE = 1
 
- attr_reader :balance, :entry_station
+ attr_reader :balance, :entry_station,  :previous_journeys
  attr_accessor :in_journey
 
  def initialize
    @balance = 0 
    @in_journey = false
+   @previous_journeys = {}
  end
 
  def top_up(amount)
@@ -26,10 +27,12 @@ class OysterCard
  	@in_journey = true
  end
 
- def touch_out
+ def touch_out(exit_station)
+ 	@exit_station = exit_station
  	deduct(MINIMUM_CHARGE)
-    @in_journey = false
+    journey_hash
     @entry_station = nil
+    @in_journey = false
  end
 
  def in_journey?
@@ -41,5 +44,17 @@ class OysterCard
  def deduct(amount)
  	@balance -= amount
  end
+
+ def journey_hash
+ 	@previous_journeys.merge!({@entry_station => @exit_station})
+ end
+
+
+
+
+
+
+
+
 
 end
