@@ -44,35 +44,17 @@
         end
 
 
-
-
     context '#touch_out' do
-      it 'has touched out at station' do
-        card.touch_out(exit_station)
-        expect(card.in_journey?).to eq false
-      end
 
       it 'charges for the journey' do
         card.touch_in(entry_station)
         expect {card.touch_out(exit_station)}.to change{card.balance}.by(-OysterCard::MINIMUM_AMOUNT)
       end
 
-      it 'remembers exit_station after checking out' do
-        card.touch_out(exit_station)
-        expect(card.exit_station).to eq exit_station
-      end   
     end
    end 
 
-       context "#journey_history" do
-      it 'records the journey history of a user' do
-      card.top_up(3)
-      card.touch_in(entry_station)
-      card.touch_out(exit_station)
-      expect(card.journey_history).to include  ({"entry_station" => entry_station, "exit_station" => exit_station})
-      end
-   end 
-
+ 
 
     context "no money on card" do
       it 'does not allow to touch in at entry_station' do

@@ -25,7 +25,6 @@ class OysterCard
   end
 
   def touch_out(station)
-    @entry_station = nil
     @exit_station = station
     deduct(MINIMUM_AMOUNT)
     journey_history["exit_station"] = @exit_station
