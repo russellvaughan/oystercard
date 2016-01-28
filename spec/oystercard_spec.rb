@@ -10,14 +10,6 @@
       expect(card.balance).to eq 0
     end
 
-    describe 'journey_history' do
-      it 'displays an empty journey history when new' do
-      expect(card.journey_history).to eq ({}) 
-      #other way woud be 
-      #expect(card.journey_history.empty?).to eq true 
-      end
-    end
-
 
 
   	describe '#top_up' do #when you describe a method it's lowercase and it's string.
@@ -51,26 +43,8 @@
           card.top_up(1)
         end
 
-        context '#in_journey?' do
-          it 'new card isn\'t in journey' do
-            expect(card.in_journey?).to eq false
-          end
-        end
 
 
-        context '#touch_in' do
-          it 'has touched in at entry_station' do
-            card.touch_in(entry_station)
-            expect(card.in_journey?).to eq true
-          end
-        
-
-        it 'remembers entry station' do
-         card.touch_in(entry_station)
-         expect(card.entry_station).to eq entry_station
-       end
-
-   end
 
     context '#touch_out' do
       it 'has touched out at station' do
