@@ -1,48 +1,50 @@
-class Card
+class OysterCard
 
-MAXIMUM_LIMIT = 90
-MINIMUM_BALANCE = 1
-DEDUCTION_VALUE = 1
+ MAXIMUM_BALANCE = 90
+ MINIMUM_BALANCE = 1
 
-	attr_reader :balance, :limit
+ MINIMUM_CHARGE = 1
 
-	def initialize(limit=MAXIMUM_LIMIT)
-		@balance = 0
-		@limit = limit
-    @touch = false
+ attr_reader :balance, :entry_station,  :previous_journeys
+ attr_accessor :in_journey
 
-	end
+ def initialize
+   @balance = 0
+   @in_journey = false
+   @previous_journeys = {}
+ end
 
-	def top_up(amount)
-		new_balance = @balance + amount
-		message = "You cannot exceed the maximum limit!"
-		raise (message) if new_balance > @limit
-		@balance += amount
-	end
+ def top_up(amount)
+ 	raise "error balance greater than maximum balance" if balance + amount > MAXIMUM_BALANCE
+ 	@balance += amount
+ end
 
+ def touch_in(station)
+ 	@entry_station = station
+ 	raise 'Balance too low.' if balance < MINIMUM_BALANCE
+ 	@in_journey = true
+ end
 
+ def touch_out(exit_station)
+ 	@exit_station = exit_station
+ 	deduct(MINIMUM_CHARGE)
+    journey_hash
+    @entry_station = nil
+    @in_journey = false
+ end
 
-  def touch_in
-    message = "cannot touch in as minimum balance has not been met"
-    raise(message) if @balance < MINIMUM_BALANCE
-    @touch = true
-  end
+ def in_journey?
+   !!entry_station
+ end
 
-  def touch_out
-    @touch = false
-    deduct(1)
-  end
+ private
 
-  def in_journey?
-    @touch
-  end
+ def deduct(amount)
+ 	@balance -= amount
+ end
 
-private
-
-  def deduct(amount)
-    @balance -= amount
-  end
-
-
+ def journey_hash
+ 	@previous_journeys.merge!({@entry_station => @exit_station})
+ end
 end
 
