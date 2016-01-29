@@ -21,15 +21,14 @@ class OysterCard
  end
 
  def touch_in(station)
- 	@entry_station = station
  	raise 'Balance too low.' if balance < MINIMUM_BALANCE
+ 	@previous_journeys.merge!("entry_station" => station)
  	@in_journey = true
  end
 
  def touch_out(exit_station)
- 	@exit_station = exit_station
+ 	@previous_journeys.merge!("exit_station" => exit_station)
  	deduct(MINIMUM_CHARGE)
-    journey_hash
     @entry_station = nil
     @in_journey = false
  end
@@ -44,8 +43,5 @@ class OysterCard
  	@balance -= amount
  end
 
- def journey_hash
- 	@previous_journeys.merge!({@entry_station => @exit_station})
- end
 end
 

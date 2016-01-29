@@ -60,7 +60,7 @@ context "----journeys----" do
     it 'returns true when in journey' do
   	  subject.top_up(OysterCard::MINIMUM_BALANCE)
       subject.touch_in(station)
-      expect(subject.in_journey?).to eq true
+      expect(subject.in_journey).to eq true
     end
     it 'returns false initially' do
       expect(subject.in_journey?).to eq false
@@ -70,7 +70,7 @@ context "----journeys----" do
   it 'stores the entry station' do
 	  subject.top_up(1)
 	  subject.touch_in(station)
-	  expect(subject.entry_station).to eq station
+	  expect(subject.previous_journeys).to eq ({'entry_station' => station})
   end
 
   describe '#previous_journeys' do
@@ -82,7 +82,7 @@ context "----journeys----" do
       subject.top_up(1)
       subject.touch_in(station)
       subject.touch_out(station2)
-      expect(subject.previous_journeys).to eq ({station => station2})
+      expect(subject.previous_journeys).to eq ({'entry_station' => station, 'exit_station' => station2})
     end
   end
 end
