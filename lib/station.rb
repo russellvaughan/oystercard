@@ -1,4 +1,1 @@
-class Station
-  def initialize	
-  end
-end
+Station = Struct.new :name, :zone

@@ -1,13 +1,14 @@
 require 'station'
 
- describe Station do
+describe Station do
 
-	subject(:station) {described_class.new}
+let(:station) {described_class.new("station1", 1)}
 
-  it 'creates a new station' do 
-  	expect(described_class.new).to be_a(Station)
-
+  it 'has the name "station1"' do
+    expect(station.name).to eq "station1"
   end
 
- 
+  it 'has the zone 1' do
+    expect(station.zone).to eq 1
+  end
 end
