@@ -42,8 +42,8 @@ Installation and example use
 
  Key Learnings:
  --------------
- Creating Structs
- Creating Gemfiles
- Extracting Classes
- Dependency Injection
- T.D.D.
+- Creating Structs
+- Creating Gemfiles
+- Extracting Classes
+- Dependency Injection
+- T.D.D.
