@@ -38,6 +38,8 @@ Installation and example use
 2.2.3 :009 > oystercard.previous_journeys
  => {"entry_station"=>#<struct Station name="london_bridge", zone=1>, "exit_station"=>#<struct Station name="bank", zone=1>} 
 
+```
+
  Key Learnings:
  --------------
  Creating Structs
