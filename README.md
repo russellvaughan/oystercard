@@ -5,7 +5,7 @@
 
 The key learning objectives for this challenge were focused around effective Code Design, Ruby, RSpec and Object-Oriented Programming.
 
-Author
+Authors:
 --------
 
 Russell Vaughan, Barry Grubb, David Parry, Fareed Patel, Matthew Drake, Reiss Johnson
